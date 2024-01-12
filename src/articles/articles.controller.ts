@@ -3,6 +3,7 @@ import { ArticlesService } from './articles.service';
 import { SlugPipe } from './pipes/slug/slug.pipe';
 import { FilterRequestInterceptor } from 'src/interceptors/filter-request/filter-request.interceptor';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
+import { Roles } from './decorators/roles/roles.decorator';
 
 @Controller('articles')
 export class ArticlesController {
@@ -15,7 +16,7 @@ export class ArticlesController {
 
     @Post()
     @UseGuards(AuthGuard)
-    @SetMetadata('roles', ['ADMIN'])
+    @Roles('ADMIN')
     @UseInterceptors(FilterRequestInterceptor)
     createArticle(@Body('title', SlugPipe) title, @Body() allBody) {
         allBody.slug = title;
