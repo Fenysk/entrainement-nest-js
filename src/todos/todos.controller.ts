@@ -1,9 +1,12 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseInterceptors } from '@nestjs/common';
 import { TodosService } from './todos.service';
 import { Todo } from './interfaces/todo.inteface';
 import { CreateTodoDto } from './dto/create-todo.dto';
-import { ToNumberPipe } from './pipes/to-number/to-number.pipe';
+import { MesureDurationInterceptor } from 'src/interceptors/mesure-duration/mesure-duration.interceptor';
+import { ToNumberPipe } from 'src/pipes/to-number/to-number.pipe';
+import { LogClientInterceptor } from 'src/interceptors/log-client/log-client.interceptor';
 
+@UseInterceptors(LogClientInterceptor, MesureDurationInterceptor)
 @Controller('todos')
 export class TodosController {
     constructor(private readonly todosService: TodosService) { }
